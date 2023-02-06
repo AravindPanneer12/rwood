@@ -39,7 +39,7 @@ def add_author():
         db.session.add(new_account)
         db.session.commit()
     else:
-        return f"account_name with {account_name} is already present"
+        return f"account_name with {account_name, account.id} is already present"
 
     return account_schema.jsonify(new_account)
 
@@ -193,14 +193,90 @@ def delete_industryInfo(id):
     return f"industry id-{id} is deleted"
 
 
+#account update
+@accounts.route("/account/update/<id>", methods=["PUT"])
+def update_account(id):
+    update_account = Account.query.get(id)
+    if not update_account:
+        return jsonify({f"message": "update_account not found"}), 404
+
+    account_name =request.json["account_name"]
+    account_alias =request.json["account_alias"]
+    website =request.json["website"]
+    account_owner =request.json["account_owner"]
+    parent_account =request.json["parent_account"]
+    account_number = request.json["account_number"]
+    account_record_type =request.json["account_record_type"]
+    annual_revenue = request.json["annual_revenue"]
+    no_of_employees= request.json["no_of_employees"]
+
+    account = Account.query.filter_by(account_name=account_name).first()
+    if not account:
+        return f'account name with {account_name} is not present '
+    
+    update_account.account_name = account_name
+    update_account.account_alias = account_alias
+    update_account.website = website
+    update_account.account_owner = account_owner
+    update_account.parent_account = parent_account
+    update_account.account_number = account_number
+
+    update_account.account_record_type = account_record_type
+    update_account.annual_revenue = annual_revenue
+    update_account.no_of_employees = no_of_employees
+    update_account.account_id= account.id
+    db.session.commit()
+
+    return account_schema.jsonify(update_account)
 
 
 
-@accounts.route("/rwood/<id>", methods=["PUT"])
+
+
+@accounts.route("/address/update/<id>", methods=["PUT"])
+def update_address(id):
+    update_address = Address.query.get(id)
+    if not update_address:
+        return jsonify({f"message": "{update_address} not found"}), 404
+
+    region= request.json["region"]
+    billing_address= request.json["billing_address"]
+    phone= request.json["phone"]
+    shipping_address= request.json["shipping_address"]
+    fax= request.json["fax"]
+    
+    account_name = request.json["account_name"]
+    
+    
+
+    account = Account.query.filter_by(account_name=account_name).first()
+    if not account:
+        return f'account name with {account_name} is not present '
+
+    update_address.region = region
+    update_address.billing_address = billing_address
+    update_address.phone = phone
+    update_address.shipping_address = shipping_address
+    update_address.fax = fax
+    
+    update_address.account_id= account.id
+    db.session.commit()
+
+    return address_schema.jsonify(update_address)
+
+
+
+
+
+
+
+
+
+@accounts.route("/rwood/update/<id>", methods=["PUT"])
 def update_wood(id):
     update_wood = Rwood.query.get(id)
     if not update_wood:
-        return jsonify({"message": "Book not found"}), 404
+        return jsonify({f"message": "{update_wood} not found"}), 404
 
     KYC_docs= request.json["KYC_docs"]
     KYC_doc_data= request.json["KYC_doc_data"]
@@ -235,3 +311,56 @@ def update_wood(id):
     db.session.commit()
 
     return rwood_schema.jsonify(update_wood)
+
+
+
+
+
+
+
+
+
+@accounts.route("/industry/update/<id>", methods=["PUT"])
+def update_industry(id):
+    update_industry = IndustryInfo.query.get(id)
+    if not update_industry:
+        return jsonify({f"message": "{update_industry} not found"}), 404
+
+    under_group = request.json['under_group'],
+    station_name = request.json['station_name'],
+    expansion_setup= request.json['expansion_setup'],
+    industry=request.json['industry'] ,
+    sector= request.json['sector'],
+    market_impression_rating=request.json['market_impression_rating'] ,
+    annual_coal_requirement= request.json['annual_coal_requirement'] ,
+    imported_volume_PA= request.json['imported_volume_PA'],
+    imported_volume_from_indonesia_PA=request.json['imported_volume_from_indonesia_PA'] ,
+    quantity_MT_monthly= request.json['quantity_MT_monthly'],
+    production_Unit=request.json['production_Unit'] ,
+    originiaze_import_break_up=request.json['originiaze_import_break_up'],
+    port=request.json['port'] ,
+    origin= request.json['origin'],
+    account_name = request.json["account_name"]
+
+    account = Account.query.filter_by(account_name=account_name).first()
+    if not account:
+        return f'account name with {account_name} is not present '
+
+    update_industry.under_group = under_group
+    update_industry.station_name = station_name
+    update_industry.expansion_setup = expansion_setup
+    update_industry.industry = industry
+    update_industry.sector = sector
+    update_industry.market_impression_rating = market_impression_rating
+    update_industry.annual_coal_requirement = annual_coal_requirement
+    update_industry.imported_volume_PA = imported_volume_PA
+    update_industry.imported_volume_from_indonesia_PA = imported_volume_from_indonesia_PA
+    update_industry.quantity_MT_monthly = quantity_MT_monthly
+    update_industry.production_Unit = production_Unit
+    update_industry.originiaze_import_break_up = originiaze_import_break_up
+    update_industry.port = port
+    update_industry.origin = origin
+    update_industry.account_id= account.id
+    db.session.commit()
+
+    return industry_schema.jsonify(update_industry)
