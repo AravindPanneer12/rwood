@@ -13,5 +13,70 @@
        
         
         <h1>Accounts</h1>
+        {% for i in items %}
+       <ul>
+        <li> {{i.account_name}}</li>
+        
+
+
+        
+       </ul>
+      
+        {% endfor %}
+
+
+
+
+
+
+
+
+        <h1>Address</h1>
+        {% for i in address %}
+        <ul>
+         <li> account_name :{{i.account.account_name}} <br/> account_id:  {{i.account_id}}</li>
+         <li> {{i.phone}}</li>
+         
+ 
+ 
+         
+        </ul>
+       
+         {% endfor %}
+
+
+
+
+
+
+         <h1>Rwood</h1>
+        {% for i in rwood %}
+        <ul>
+         <li> account_name :{{i.account.account_name}} <br/> account_id:  {{i.account_id}}</li>
+         <li> {{i.KYC_docs}}</li>
+         
+ 
+ 
+         
+        </ul>
+       
+         {% endfor %}
+
+
+
+
+
+         <h1>IndustryInfo</h1>
+         {% for i in industryInfo %}
+         <ul>
+          <li> account_name :{{i.account.account_name}} <br/> account_id:  {{i.account_id}}</li>
+          <li> {{i.origin}}</li> <li>{{i.port}}</li>
+          
+  
+  
+          
+         </ul>
+        
+          {% endfor %}
     </body>
 </html>
